@@ -1,0 +1,10 @@
+DDL- create, alter, truncate, rename & drop
+
+DML- select, update, delete, insert
+
+
+TrunCate - DDL
+
+Delete - DML --specific person data will be delete like row and column
+
+Drop - DDL

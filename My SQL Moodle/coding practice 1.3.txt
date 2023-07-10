@@ -1,0 +1,89 @@
+1. Get All Details of products from the "Puma" brand.
+
+mysql> select * from e_commerce where brand='Puma';
++-------------+----------+-------+-------+--------+
+| products    | category | price | brand | rating |
++-------------+----------+-------+-------+--------+
+| Black Shirt | Clothing |   900 | Puma  |    4.8 |
+| Shirt White | Clothing |  1200 | Puma  |    4.6 |
++-------------+----------+-------+-------+--------+
+2 rows in set (0.00 sec)
+
+
+2.User would like to shop for "Jeans". A common pattern in all the jeans products is that their name 
+ends with "Jeans". Help the user get the details of required products.
+
+mysql> select * from e_commerce where products like '%Jeans';
++------------+----------+-------+---------------+--------+
+| products   | category | price | brand         | rating |
++------------+----------+-------+---------------+--------+
+| Grey Jeans | Clothing |  1500 | Peter England |    4.6 |
++------------+----------+-------+---------------+--------+
+1 row in set (0.00 sec)
+
+3. user wants to purchase "Bourbon Small", "Bourbon with extra cookies", or products from bourbon.
+Retrieve all details of such products accordingly.
+
+mysql> select * from e_commerce where products like 'Bourbon%';
++--------------------+----------+-------+----------+--------+
+| products           | category | price | brand    | rating |
++--------------------+----------+-------+----------+--------+
+| Bourbon            | Cookies  |    50 | Britania |    4.1 |
+| Bourbon small      | Cookies  |    50 | Britania |    3.8 |
+| Bourbon with extra | Cookies  |   200 | Britania |      4 |
++--------------------+----------+-------+----------+--------+
+3 rows in set (0.00 sec)
+
+4. List all the "Chips" in the database.
+
+mysql> select * from e_commerce where products like '%c____';
++--------------+----------+-------+---------+--------+
+| products     | category | price | brand   | rating |
++--------------+----------+-------+---------+--------+
+| Potato Chips | Snacks   |   150 | A2Chips |    3.9 |
+| lays chips   | Snacks   |   100 | Lays    |    3.8 |
++--------------+----------+-------+---------+--------+
+2 rows in set (0.00 sec)
+
+5.Get the products whose name matches the following pattern:
+name ends with at least four characters
+out of the last 4 character, first character is "h" and third "character" is "r".
+
+mysql> select * from e_commerce where products like '%K_H_ro';
++-----------+----------+-------+-------+--------+
+| products  | category | price | brand | rating |
++-----------+----------+-------+-------+--------+
+| Mask Hero | Movie    |  1200 | LCU   |    3.9 |
++-----------+----------+-------+-------+--------+
+1 row in set (0.00 sec)
+
+
+6. Get all the products whose price is less than or equal to 1000.
+mysql> select * from e_commerce where price<=1000;
++--------------------+--------------+-------+----------+--------+
+| products           | category     | price | brand    | rating |
++--------------------+--------------+-------+----------+--------+
+| Black Shirt        | Clothing     |   900 | Puma     |    4.8 |
+| Bourbon            | Cookies      |    50 | Britania |    4.1 |
+| Potato Chips       | Snacks       |   150 | A2Chips  |    3.9 |
+| lays chips         | Snacks       |   100 | Lays     |    3.8 |
+| Bourbon small      | Cookies      |    50 | Britania |    3.8 |
+| Bourbon with extra | Cookies      |   200 | Britania |      4 |
+| Horlicks women     | Energy drink |   140 | Horlicks |    4.3 |
++--------------------+--------------+-------+----------+--------+
+7 rows in set (0.00 sec)
+
+7. Get all the best rated products.
+Note: Products whose rating is above 4.0 are considered as best rated products.
+
+mysql> select * from e_commerce where rating>4.0;
++----------------+--------------+-------+---------------+--------+
+| products       | category     | price | brand         | rating |
++----------------+--------------+-------+---------------+--------+
+| Black Shirt    | Clothing     |   900 | Puma          |    4.8 |
+| Shirt White    | Clothing     |  1200 | Puma          |    4.6 |
+| Grey Jeans     | Clothing     |  1500 | Peter England |    4.6 |
+| Bourbon        | Cookies      |    50 | Britania      |    4.1 |
+| Horlicks women | Energy drink |   140 | Horlicks      |    4.3 |
++----------------+--------------+-------+---------------+--------+
+5 rows in set (0.00 sec)

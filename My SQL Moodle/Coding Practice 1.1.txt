@@ -1,0 +1,151 @@
+1. Create a student table to store name, age and score of students.
+
+mysql> create table student(details char(20), datatype varchar(40));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| details  | char(20)    | YES  |     | NULL    |       |
+| datatype | varchar(40) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into student(details, datatype)values('name', 'string of max length 200'),('age', 'integer'),('score', 'integer');
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++---------+--------------------------+
+| details | datatype                 |
++---------+--------------------------+
+| name    | string of max length 200 |
+| age     | integer                  |
+| score   | integer                  |
++---------+--------------------------+
+3 rows in set (0.00 sec)
+
+
+2.In a typical e-commerce application, we need to store the following customer details. Create a customer table to store the data.
+
+mysql> create table customer(details varchar(20), datatype varchar(40));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| details  | varchar(20) | YES  |     | NULL    |       |
+| datatype | varchar(40) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into customer(details, datatype)values('customer_id', 'integer'),('first_name','string of max length 200'),
+    -> ('last_name', 'string of max length 200');
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into customer(details, datatype)values('date_of_birth', 'date'),('address','text'),('phone_number', 'integer');
+Query OK, 3 rows affected (0.12 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------------+--------------------------+
+| details       | datatype                 |
++---------------+--------------------------+
+| customer_id   | integer                  |
+| first_name    | string of max length 200 |
+| last_name     | string of max length 200 |
+| date_of_birth | date                     |
+| address       | text                     |
+| phone_number  | integer                  |
++---------------+--------------------------+
+6 rows in set (0.00 sec)
+
+
+3.We need to store the details of orders in an e-commerce application. Create an order_details table to store the following details for every order.
+
+mysql> create table order_details(details varchar(30), datatype char(20));
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> desc order_details;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| details  | varchar(30) | YES  |     | NULL    |       |
+| datatype | char(20)    | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into order_details(details, datatype)values('order_id', 'integer'),('customer_id', 'integer'),('order_datetime', 'datetime'),
+    -> ('shipped_datetime', 'datetime'),('total_amount', 'float');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from order_details;
++------------------+----------+
+| details          | datatype |
++------------------+----------+
+| order_id         | integer  |
+| customer_id      | integer  |
+| order_datetime   | datetime |
+| shipped_datetime | datetime |
+| total_amount     | float    |
++------------------+----------+
+5 rows in set (0.00 sec)
+
+
+4.We're storing the details of players who are part of a tournament. The database contains a player table that stores the name, age and score of players. We have to add a new player to the player table.
+
+mysql> create table player(details char(10), value varchar(10));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> insert into player(details, value)values('name', 'Ram'),('age', 28 int),('score', 30 int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int),('score', 30 int)' at line 1
+mysql> insert into player(details, value)values('name', 'Ram'),('age', 28),('score', 30);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from player;
++---------+-------+
+| details | value |
++---------+-------+
+| name    | Ram   |
+| age     | 28    |
+| score   | 30    |
++---------+-------+
+3 rows in set (0.00 sec)
+
+5.The database contains a player table that stores the name, age and score of players. 
+Get all the players from the player table in the following format. 
+Expected Output Format:
+
+mysql> create table players(name char(10), age int, score int);
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> insert into players(name, age, score)values('Suresh', 21, 70),('Venkat', 21, 43),('Elavarasan',22,101);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from players;
++------------+------+-------+
+| name       | age  | score |
++------------+------+-------+
+| Suresh     |   21 |    70 |
+| Venkat     |   21 |    43 |
+| Elavarasan |   22 |   101 |
++------------+------+-------+
+3 rows in set (0.00 sec)
+
+6.Get all the details of "Suresh" from the player table in the following formt.
+  Expected Output Format:
+
+
+mysql> select * from players where name='Suresh';
++--------+------+-------+
+| name   | age  | score |
++--------+------+-------+
+| Suresh |   21 |    70 |
++--------+------+-------+
+1 row in set (0.00 sec)

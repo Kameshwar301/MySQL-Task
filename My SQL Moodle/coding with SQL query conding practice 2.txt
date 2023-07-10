@@ -1,0 +1,135 @@
+1. Get all the details of products that belong to "clothing" category and price less than 700
+
+mysql> select * from e_commerce where category like "%g" and price<700;
++------------+----------+-------+------------+--------+
+| products   | category | price | brand      | rating |
++------------+----------+-------+------------+--------+
+| Round neck | Clothing |   699 | Alen solly |    4.1 |
+| V neck     | Clothing |   699 | Alen solly |    4.2 |
++------------+----------+-------+------------+--------+
+2 rows in set (0.00 sec)
+
+2.Get all the details of products that belong to "Denim" brand with rading greater than 4.
+
+mysql> select * from e_commerce where brand like "%m" and rating>4;
++--------------+----------+-------+-------+--------+
+| products     | category | price | brand | rating |
++--------------+----------+-------+-------+--------+
+| shorts white | Clothing |   701 | Denim |    4.1 |
+| Track blue   | Clothing |   702 | Denim |    4.1 |
++--------------+----------+-------+-------+--------+
+2 rows in set (0.00 sec)
+
+3.Get all the best-rated products with price less than or equal to 1000.
+Note: Assume that the products with rating greater than 4.0 as best rated products.
+
+mysql> select * from e_commerce where price<=1000 and rating>4.0;
++----------------+--------------+-------+------------+--------+
+| products       | category     | price | brand      | rating |
++----------------+--------------+-------+------------+--------+
+| Black Shirt    | Clothing     |   900 | Puma       |    4.8 |
+| Bourbon        | Cookies      |    50 | Britania   |    4.1 |
+| Horlicks women | Energy drink |   140 | Horlicks   |    4.3 |
+| Round neck     | Clothing     |   699 | Alen solly |    4.1 |
+| V neck         | Clothing     |   699 | Alen solly |    4.2 |
+| shorts white   | Clothing     |   701 | Denim      |    4.1 |
+| Track blue     | Clothing     |   702 | Denim      |    4.1 |
+| Chocklate cake | Cakes        |   250 | Britania   |    4.1 |
++----------------+--------------+-------+------------+--------+
+8 rows in set (0.00 sec)
+
+4. Get All the products from the prducts table whose
+
+rating is above 3.6 and
+price is less than 1000
+belongs to "puma" brand
+
+mysql> select * from e_commerce where rating>4.0 and price<=1000 and brand='puma';
++-------------+----------+-------+-------+--------+
+| products    | category | price | brand | rating |
++-------------+----------+-------+-------+--------+
+| Black Shirt | Clothing |   900 | Puma  |    4.8 |
++-------------+----------+-------+-------+--------+
+1 row in set (0.00 sec)
+
+
+5. Get all the products from "Puma", "Denim" or "Nike" brands.
+
+mysql> select * from e_commerce where brand='Puma' or brand='Denim' or brand='Nike';
++--------------+----------+-------+-------+--------+
+| products     | category | price | brand | rating |
++--------------+----------+-------+-------+--------+
+| Black Shirt  | Clothing |   900 | Puma  |    4.8 |
+| Shirt White  | Clothing |  1200 | Puma  |    4.6 |
+| shorts white | Clothing |   701 | Denim |    4.1 |
+| Track blue   | Clothing |   702 | Denim |    4.1 |
+| Sports Shoe  | Sports   |  1100 | Nike  |    3.7 |
++--------------+----------+-------+-------+--------+
+5 rows in set (0.00 sec)
+
+6. Get all the details of products whose
+brand is "Redmi" with rating greater than 4 or
+products that belong to "OnePlus" brand.
+
+mysql> select * from e_commerce where brand='Redmi' and rating>4 or brand='OnePlus';
++----------+----------+-------+---------+--------+
+| products | category | price | brand   | rating |
++----------+----------+-------+---------+--------+
+| Nord2    | Gadgets  |  1500 | OnePlus |    4.5 |
++----------+----------+-------+---------+--------+
+1 row in set (0.00 sec)
+
+7.Get only cakes from "Cadbury" and "Britania" brands that have rating greater than 4.0
+Note: Consider the products that have "Cake" in name as cakes.
+
+mysql> select * from e_commerce where products LIKE "%c__e" and rating>4.0;
++----------------+----------+-------+----------+--------+
+| products       | category | price | brand    | rating |
++----------------+----------+-------+----------+--------+
+| Ice cake       | Cakes    |   250 | Cadbury  |    4.2 |
+| Chocklate cake | Cakes    |   250 | Britania |    4.1 |
++----------------+----------+-------+----------+--------+
+2 rows in set (0.00 sec)
+
+8. Get all the details of the products from the product table whose
+brand is "puma" and rating greater than 3.5 or
+brand is "Denim" and rating greater than 4.0
+
+mysql> select products, brand from e_commerce where brand='puma' and rating>3.5 or brand='Denim' and rating>4.0;
++--------------+-------+
+| products     | brand |
++--------------+-------+
+| Black Shirt  | Puma  |
+| Shirt White  | Puma  |
+| shorts white | Denim |
+| Track blue   | Denim |
++--------------+-------+
+4 rows in set (0.00 sec)
+
+9.Get all the shirts available in "Puma","Nike" or "Levi's" brands, excluding the black colour shirts.
+Note:
+You can assume that:
+1.Products containing "Shirt" in  name are considered as shirts.
+2.Black colour shirts contain "Black" in their names.
+
+
+mysql> select * from e_commerce where brand = 'Puma';
++-------------+----------+-------+-------+--------+
+| products    | category | price | brand | rating |
++-------------+----------+-------+-------+--------+
+| Black Shirt | Clothing |   900 | Puma  |    4.8 |
+| Shirt White | Clothing |  1200 | Puma  |    4.6 |
++-------------+----------+-------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from e_commerce where products <> 'Black Shirt' and brand = 'Puma' or brand = 'Nike';
++-------------+----------+-------+-------+--------+
+| products    | category | price | brand | rating |
++-------------+----------+-------+-------+--------+
+| Shirt White | Clothing |  1200 | Puma  |    4.6 |
+| Sports Shoe | Sports   |  1100 | Nike  |    3.7 |
+| Grey Shirt  | Clothing |   700 | Nike  |    4.3 |
++-------------+----------+-------+-------+--------+
+3 rows in set (0.00 sec)
+
+
