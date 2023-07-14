@@ -1,0 +1,298 @@
+Day 4: 10/07/2023
+---------------------------
+
+mysql> create table rm_bk(rmno int primary key auto_increment,roomtype varchar(20),
+price double(10,2) check( price>=1000 and price<=10000));
+
+Query OK, 0 rows affected, 1 warning (1.25 sec)
+
+mysql> desc rm_bk;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| rmno     | int          | NO   | PRI | NULL    | auto_increment |
+| roomtype | varchar(20)  | YES  |     | NULL    |                |
+| price    | double(10,2) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+3 rows in set (0.07 sec)
+
+mysql> insert into rm_bk(roomtype,price)values('NonAC1',1000.00),('NonAC2',2000.00),
+('AC1',3000.00),('AC2',5000.00);
+Query OK, 4 rows affected (0.20 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into rm_bk(roomtype,price)values('DeluxRoom',7599.99),
+('Ultadeluxe',10000.00);
+Query OK, 2 rows affected (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into rm_bk(roomtype,price)values('AC1',500.00);
+ERROR 3819 (HY000): Check constraint 'rm_bk_chk_1' is violated.
+mysql> insert into rm_bk(roomtype,price)values('Ultadeluxe',15000.00);
+ERROR 3819 (HY000): Check constraint 'rm_bk_chk_1' is violated.
+
+mysql> select * from rm_bk;
++------+------------+----------+
+| rmno | roomtype   | price    |
++------+------------+----------+
+|    1 | NonAC1     |  1000.00 |
+|    2 | NonAC2     |  2000.00 |
+|    3 | AC1        |  3000.00 |
+|    4 | AC2        |  5000.00 |
+|    5 | DeluxRoom  |  7599.99 |
+|    6 | Ultadeluxe | 10000.00 |
++------+------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select adddate('2023-06-10 12:00:00',interval 30 day);
++------------------------------------------------+
+| adddate('2023-06-10 12:00:00',interval 30 day) |
++------------------------------------------------+
+| 2023-07-10 12:00:00                            |
++------------------------------------------------+
+1 row in set (0.05 sec)
+
+
+mysql> select adddate('2023-06-10 12:00:00',interval 18 week);
++-------------------------------------------------+
+| adddate('2023-06-10 12:00:00',interval 18 week) |
++-------------------------------------------------+
+| 2023-10-14 12:00:00                             |
++-------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select adddate('2023-06-10 12:00:00',interval 24 month);
++--------------------------------------------------+
+| adddate('2023-06-10 12:00:00',interval 24 month) |
++--------------------------------------------------+
+| 2025-06-10 12:00:00                              |
++--------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+mysql> select addtime('08:10:20','12:30:10');
++--------------------------------+
+| addtime('08:10:20','12:30:10') |
++--------------------------------+
+| 20:40:30                       |
++--------------------------------+
+1 row in set (0.05 sec)
+
+mysql> select convert_tz('2023-06-10','+5:30','-08:00');
++-------------------------------------------+
+| convert_tz('2023-06-10','+5:30','-08:00') |
++-------------------------------------------+
+| 2023-06-09 10:30:00                       |
++-------------------------------------------+
+1 row in set (0.10 sec)
+
+mysql> update room_book set checkout = adddate(checkin,interval 3 day);
+Query OK, 6 rows affected (0.05 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> select * from room_book;
++--------+----------+---------------------+---------------------+---------+
+| roomno | roomtype | checkIn             | checkout            | price   |
++--------+----------+---------------------+---------------------+---------+
+|      1 | AC       | 2023-06-28 06:30:20 | 2023-07-01 06:30:20 | 1750.00 |
+|      2 | NonAC    | 2023-06-02 10:45:40 | 2023-06-05 10:45:40 |  800.00 |
+|     13 | DeluxeAC | 2023-06-27 10:45:40 | 2023-06-30 10:45:40 | 3500.00 |
+|     14 | UDexAC   | 2023-05-12 21:10:10 | 2023-05-15 21:10:10 | 4999.99 |
+|     15 | DNonAC   | 2023-06-22 12:10:10 | 2023-06-25 12:10:10 | 1200.00 |
+|     21 | ACUltra  | 2023-06-26 07:10:20 | 2023-06-29 07:10:20 | 4750.00 |
++--------+----------+---------------------+---------------------+---------+
+6 rows in set (0.01 sec)
+
+mysql> select datediff(checkout,checkin) from room_book;
++----------------------------+
+| datediff(checkout,checkin) |
++----------------------------+
+|                          3 |
+|                          3 |
+|                          3 |
+|                          3 |
+|                          3 |
+|                          3 |
++----------------------------+
+6 rows in set (0.00 sec)
+
+
+mysql> select day(checkin) from room_book;
++--------------+
+| day(checkin) |
++--------------+
+|           28 |
+|            2 |
+|           27 |
+|           12 |
+|           22 |
+|           26 |
++--------------+
+6 rows in set (0.06 sec)
+
+
+mysql> select date_format(checkin,'%D,%M,%Y,%W,%p') from room_book;
++---------------------------------------+
+| date_format(checkin,'%D,%M,%Y,%W,%p') |
++---------------------------------------+
+| 28th,June,2023,Wednesday,AM           |
+| 2nd,June,2023,Friday,AM               |
+| 27th,June,2023,Tuesday,AM             |
+| 12th,May,2023,Friday,PM               |
+| 22nd,June,2023,Thursday,PM            |
+| 26th,June,2023,Monday,AM              |
++---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+Joins
+---------------
+
+Inner Join
+---------
+
+mysql> select cust_det.cname,prod_det.pname,prod_det.price,cust_det.location 
+from prod_det inner join cust_det on prod_det.pid = cust_det.pid;
++--------+------------------+-----------+------------+
+| cname  | pname            | price     | location   |
++--------+------------------+-----------+------------+
+| Ram    | CBR              | 250000.00 | Erode      |
+| Siva   | RX100            |  86000.00 | Karur      |
+| Ashok  | Ninja900         | 100000.00 | Coimbatore |
+| Gabi   | Tiger            | 150000.00 | Trichy     |
+| Kamali | BMW              | 300000.00 | Paris      |
+| Hari   | Royal Enfield350 | 200000.00 | Thirupur   |
++--------+------------------+-----------+------------+
+6 rows in set (0.13 sec)
+
+mysql> select c.cname,p.pname,p.price,c.location from prod_det as p inner join 
+cust_det as c on p.pid = c.pid;
++--------+------------------+-----------+------------+
+| cname  | pname            | price     | location   |
++--------+------------------+-----------+------------+
+| Ram    | CBR              | 250000.00 | Erode      |
+| Siva   | RX100            |  86000.00 | Karur      |
+| Ashok  | Ninja900         | 100000.00 | Coimbatore |
+| Gabi   | Tiger            | 150000.00 | Trichy     |
+| Kamali | BMW              | 300000.00 | Paris      |
+| Hari   | Royal Enfield350 | 200000.00 | Thirupur   |
++--------+------------------+-----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select p.pid,p.pname,c.cname,c.location,b.bid,b.dob,b.total_price from 
+prod_det as p inner join cust_det as c on p.pid = c.pid inner join bill as b
+ on c.cid = b.cid;
+
++-----+----------+-------+------------+------+------------+-------------+
+| pid | pname    | cname | location   | bid  | dob        | total_price |
++-----+----------+-------+------------+------+------------+-------------+
+| 108 | CBR      | Ram   | Erode      |    1 | 2023-06-05 |   260000.00 |
+| 103 | RX100    | Siva  | Karur      |    2 | 2023-02-05 |    88000.00 |
+| 107 | Ninja900 | Ashok | Coimbatore | 2501 | 2023-03-25 |   108000.00 |
+| 110 | Tiger    | Gabi  | Trichy     | 2502 | 2023-06-08 |   160000.00 |
++-----+----------+-------+------------+------+------------+-------------+
+4 rows in set (0.04 sec)
+
+
+Right Join
+--------------
+mysql> select p.pid,p.pname,p.price,c.cname,c.location from cust_det as c 
+right join prod_det as p on p.pid = c.pid;
+
+
++-----+------------------+-----------+--------+------------+
+| pid | pname            | price     | cname  | location   |
++-----+------------------+-----------+--------+------------+
+| 101 | Pulsar150        | 125000.00 | NULL   | NULL       |
+| 102 | KTMRC200         | 155000.00 | NULL   | NULL       |
+| 103 | RX100            |  86000.00 | Siva   | Karur      |
+| 105 | Royal Enfield350 | 200000.00 | Hari   | Thirupur   |
+| 106 | BMW              | 300000.00 | Kamali | Paris      |
+| 107 | Ninja900         | 100000.00 | Ashok  | Coimbatore |
+| 108 | CBR              | 250000.00 | Ram    | Erode      |
+| 109 | Activa           |  80000.00 | NULL   | NULL       |
+| 110 | Tiger            | 150000.00 | Gabi   | Trichy     |
++-----+------------------+-----------+--------+------------+
+9 rows in set (0.25 sec)
+
+Left Join
+-------------
+mysql> select c.cid,c.cname,c.location,b.bid,b.dob,b.pid from cust_det as c 
+left join bill as b on c.cid = b.cid;
+
++------+--------+------------+------+------------+------+
+| cid  | cname  | location   | bid  | dob        | pid  |
++------+--------+------------+------+------------+------+
+| c001 | Ram    | Erode      |    1 | 2023-06-05 |  108 |
+| c002 | Siva   | Karur      |    2 | 2023-02-05 |  103 |
+| c005 | Ashok  | Coimbatore | 2501 | 2023-03-25 |  107 |
+| c007 | Gabi   | Trichy     | 2502 | 2023-06-08 |  110 |
+| c009 | Kamali | Paris      | NULL | NULL       | NULL |
+| c010 | Hari   | Thirupur   | NULL | NULL       | NULL |
++------+--------+------------+------+------------+------+
+6 rows in set (0.05 sec)
+
+mysql> select p.pname,p.price,c.cname,c.location from prod_det as p cross join
+ cust_det as c;
+
++------------------+-----------+--------+------------+
+| pname            | price     | cname  | location   |
++------------------+-----------+--------+------------+
+| Pulsar150        | 125000.00 | Hari   | Thirupur   |
+| Pulsar150        | 125000.00 | Kamali | Paris      |
+| Pulsar150        | 125000.00 | Gabi   | Trichy     |
+| Pulsar150        | 125000.00 | Ashok  | Coimbatore |
+| Pulsar150        | 125000.00 | Siva   | Karur      |
+| Pulsar150        | 125000.00 | Ram    | Erode      |
+| KTMRC200         | 155000.00 | Hari   | Thirupur   |
+| KTMRC200         | 155000.00 | Kamali | Paris      |
+| KTMRC200         | 155000.00 | Gabi   | Trichy     |
+| KTMRC200         | 155000.00 | Ashok  | Coimbatore |
+| KTMRC200         | 155000.00 | Siva   | Karur      |
+| KTMRC200         | 155000.00 | Ram    | Erode      |
+| RX100            |  86000.00 | Hari   | Thirupur   |
+| RX100            |  86000.00 | Kamali | Paris      |
+| RX100            |  86000.00 | Gabi   | Trichy     |
+| RX100            |  86000.00 | Ashok  | Coimbatore |
+| RX100            |  86000.00 | Siva   | Karur      |
+| RX100            |  86000.00 | Ram    | Erode      |
+| Royal Enfield350 | 200000.00 | Hari   | Thirupur   |
+| Royal Enfield350 | 200000.00 | Kamali | Paris      |
+| Royal Enfield350 | 200000.00 | Gabi   | Trichy     |
+| Royal Enfield350 | 200000.00 | Ashok  | Coimbatore |
+| Royal Enfield350 | 200000.00 | Siva   | Karur      |
+| Royal Enfield350 | 200000.00 | Ram    | Erode      |
+| BMW              | 300000.00 | Hari   | Thirupur   |
+| BMW              | 300000.00 | Kamali | Paris      |
+| BMW              | 300000.00 | Gabi   | Trichy     |
+| BMW              | 300000.00 | Ashok  | Coimbatore |
+| BMW              | 300000.00 | Siva   | Karur      |
+| BMW              | 300000.00 | Ram    | Erode      |
+| Ninja900         | 100000.00 | Hari   | Thirupur   |
+| Ninja900         | 100000.00 | Kamali | Paris      |
+| Ninja900         | 100000.00 | Gabi   | Trichy     |
+| Ninja900         | 100000.00 | Ashok  | Coimbatore |
+| Ninja900         | 100000.00 | Siva   | Karur      |
+| Ninja900         | 100000.00 | Ram    | Erode      |
+| CBR              | 250000.00 | Hari   | Thirupur   |
+| CBR              | 250000.00 | Kamali | Paris      |
+| CBR              | 250000.00 | Gabi   | Trichy     |
+| CBR              | 250000.00 | Ashok  | Coimbatore |
+| CBR              | 250000.00 | Siva   | Karur      |
+| CBR              | 250000.00 | Ram    | Erode      |
+| Activa           |  80000.00 | Hari   | Thirupur   |
+| Activa           |  80000.00 | Kamali | Paris      |
+| Activa           |  80000.00 | Gabi   | Trichy     |
+| Activa           |  80000.00 | Ashok  | Coimbatore |
+| Activa           |  80000.00 | Siva   | Karur      |
+| Activa           |  80000.00 | Ram    | Erode      |
+| Tiger            | 150000.00 | Hari   | Thirupur   |
+| Tiger            | 150000.00 | Kamali | Paris      |
+| Tiger            | 150000.00 | Gabi   | Trichy     |
+| Tiger            | 150000.00 | Ashok  | Coimbatore |
+| Tiger            | 150000.00 | Siva   | Karur      |
+| Tiger            | 150000.00 | Ram    | Erode      |
++------------------+-----------+--------+------------+
+54 rows in set (0.17 sec)
